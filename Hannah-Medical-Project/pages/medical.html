@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Information</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .info-item {
+      background: var(--input-bg);
+      padding: 16px;
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--glass-border);
+    }
+    .info-label {
+      font-size: 12px;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .info-value {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+    .emergency-banner {
+      background: var(--danger);
+      color: white;
+      padding: 12px;
+      border-radius: var(--border-radius-md);
+      margin-bottom: 24px;
+      text-align: center;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="light-theme">
+
+  <!-- <============= NAVBAR =============> -->
+  <nav class="glass-navbar">
+    <img src="../imgs/logo-dark.png" alt="Logo" class="nav-logo" id="navLogo">
+    <div class="nav-links">
+      <a href="../index.html" id="navHomeText">Home</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+    <div class="emergency-banner" id="emergencyBanner">Emergency Medical Info</div>
+    
+    <div class="glass-card">
+      <h1 id="medicalInfoTitle" style="text-align: center; margin-bottom: 8px; color: var(--primary);">Medical Profile</h1>
+      <p id="lastUpdated" style="text-align: center; font-size: 12px; color: var(--primary); margin-bottom: 32px;">Verified Secure Profile</p>
+
+      <div id="displayInfo" class="info-grid">
+        <!-- Data loaded via JS -->
+         <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+           <p id="loadingText">Loading medical information...</p>
+         </div>
+      </div>
+
+      <p style="text-align: center; margin-top: 48px; font-size: 12px; color: var(--primary); font-weight: 500;">
+        Emergency System Powered by Medical QR
+      </p>
+    </div>
+  </main>
+
+  <!-- <============= FLOATING ACTION BUTTON =============> -->
+  <div class="fab-container">
+    <div class="fab-menu" id="fabMenu">
+      <button class="menu-btn" id="themeToggleBtn">
+        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <span id="themeText">Toggle Theme</span>
+      </button>
+      
+      <div class="fab-divider"></div>
+      
+      <!-- Language Switcher in FAB Menu -->
+      <button class="menu-btn" data-lang="en">🇺🇸 English</button>
+      <button class="menu-btn" data-lang="es">🇪🇸 Español</button>
+      <button class="menu-btn" data-lang="fr">🇫🇷 Français</button>
+      <button class="menu-btn" data-lang="ar">🇸🇦 العربية</button>
+    </div>
+
+    <button class="fab-btn" id="fabBtn" title="Settings">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9.33-4h-2.18c-.16-.6-.38-1.16-.65-1.68l1.54-1.54a1 1 0 0 0 0-1.41l-1.41-1.41a1 1 0 0 0-1.41 0l-1.54 1.54c-.52-.27-1.08-.49-1.68-.65V2.67a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v2.18c-.6.16-1.16.38-1.68.65L6.82 3.96a1 1 0 0 0-1.41 0L4.01 5.37a1 1 0 0 0 0 1.41l1.54 1.54c-.27.52-.49 1.08-.65 1.68H2.67a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2.18c.16.6.38 1.16.65 1.68l-1.54 1.54a1 1 0 0 0 0 1.41l1.41 1.41a1 1 0 0 0 1.41 0l1.54-1.54c.52.27 1.08.49 1.68.65v2.18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2.18c.6-.16 1.16-.38 1.68-.65l1.54 1.54a1 1 0 0 0 1.41 0l1.41-1.41a1 1 0 0 0 0-1.41l-1.54-1.54c.27-.52.49-1.08.65-1.68h2.18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1zM20 12h-2.02c-.12 1.04-.54 2-1.16 2.82l1.43 1.43-.71.71-1.43-1.43c-.82.62-1.78 1.04-2.82 1.16V20h-1v-2.02c-1.04-.12-2-.54-2.82-1.16l-1.43 1.43-.71-.71 1.43-1.43c-.62-.82-1.04-1.78-1.16-2.82H6v-1h2.02c.12-1.04.54-2 1.16-2.82L7.75 8.46l.71-.71 1.43 1.43c.82-.62 1.78-1.04 2.82-1.16V6h1v2.02c1.04.12 2 .54 2.82 1.16l1.43-1.43.71.71-1.43 1.43c.62.82 1.04 1.78 1.16 2.82H20v1z"/>
+      </svg>
+    </button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1ZgCCR-MakYRbA6Vw9I7QYWmITuOLC2M",
+      authDomain: "medical-qr-50da9.firebaseapp.com",
+      projectId: "medical-qr-50da9",
+      storageBucket: "medical-qr-50da9.firebasestorage.app",
+      messagingSenderId: "918654903799",
+      appId: "1:918654903799:web:fa0d014fb068cb4f993af2",
+      measurementId: "G-KEXK6MYLLC"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const displayDiv = document.getElementById("displayInfo");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    const translations = {
+      en: {
+        navHome: "Home",
+        title: "Medical Profile",
+        emergency: "Emergency Medical Info",
+        loading: "Loading medical information...",
+        noID: "No medical ID provided.",
+        notFound: "Medical profile not found.",
+        labels: {
+          name: "Full Name",
+          age: "Age",
+          blood: "Blood Type",
+          allergies: "Allergies",
+          diabetes: "Diabetes",
+          diabetesType: "Diabetes Type",
+          asthma: "Asthma",
+          highBP: "High Blood Pressure",
+          lowBP: "Low Blood Pressure",
+          strokeHistory: "Stroke History",
+          epilepsy: "Epilepsy",
+          epilepsyType: "Epilepsy Type",
+          DNR: "DNR Status",
+          organDonor: "Organ Donor",
+          smoke: "Smoker",
+          smokeFrequency: "Smoking Frequency",
+          medicine: "Current Medications",
+          notes: "Medical Notes",
+          emergencyContact: "Emergency Contact"
+        }
+      },
+      fr: {
+        navHome: "Accueil",
+        title: "Profil Médical",
+        emergency: "Infos Médicales d'Urgence",
+        loading: "Chargement des informations...",
+        noID: "Aucun identifiant médical fourni.",
+        notFound: "Profil médical non trouvé.",
+        labels: {
+          name: "Nom Complet", age: "Âge", blood: "Groupe Sanguin", allergies: "Allergies",
+          diabetes: "Diabète", diabetesType: "Type de Diabète", asthma: "Asthme",
+          highBP: "Hypertension", lowBP: "Hypotension", strokeHistory: "Antécédents d'AVC",
+          epilepsy: "Épilepsie", epilepsyType: "Type d'Épilepsie", DNR: "Statut DNR",
+          organDonor: "Donneur d'Organes", smoke: "Fumeur", smokeFrequency: "Fréquence de Tabagisme",
+          medicine: "Médicaments Actuels", notes: "Notes Médicales", emergencyContact: "Contact d'Urgence"
+        }
+      },
+      es: {
+        navHome: "Inicio",
+        title: "Perfil Médico",
+        emergency: "Información Médica de Emergencia",
+        loading: "Cargando información médica...",
+        noID: "No se proporcionó identificación.",
+        notFound: "Perfil médico no encontrado.",
+        labels: {
+          name: "Nombre Completo", age: "Edad", blood: "Tipo de Sangre", allergies: "Alergias",
+          diabetes: "Diabetes", diabetesType: "Tipo de Diabetes", asthma: "Asma",
+          highBP: "Presión Alta", lowBP: "Presión Baja", strokeHistory: "Antecedentes de ACV",
+          epilepsy: "Epilepsia", epilepsyType: "Tipo de Epilepsia", DNR: "Estado DNR",
+          organDonor: "Donante de Órganos", smoke: "Fumador", smokeFrequency: "Frecuencia de Fumar",
+          medicine: "Medicamentos Actuales", notes: "Notas Médicas", emergencyContact: "Contacto de Emergencia"
+        }
+      },
+      ar: {
+        navHome: "الرئيسية",
+        title: "الملف الطبي",
+        emergency: "معلومات طبية طارئة",
+        loading: "جاري تحميل المعلومات...",
+        noID: "لم يتم تقديم معرف طبي.",
+        notFound: "الملف الطبي غير موجود.",
+        labels: {
+          name: "الاسم الكامل", age: "العمر", blood: "فصيلة الدم", allergies: "الحساسية",
+          diabetes: "السكري", diabetesType: "نوع السكري", asthma: "الربو",
+          highBP: "ارتفاع ضغط الدم", lowBP: "انخفاض ضغط الدم", strokeHistory: "تاريخ السكتات",
+          epilepsy: "الصرع", epilepsyType: "نوع الصرع", DNR: "حالة عدم الإنعاش",
+          organDonor: "متبرع بالأعضاء", smoke: "مدخن", smokeFrequency: "معدل التدخين",
+          medicine: "الأدوية الحالية", notes: "ملاحظات طبية", emergencyContact: "جهة اتصال الطوارئ"
+        }
+      }
+    };
+
+    let medicalData = null; // Store fetched data
+
+    function renderMedicalData(data, t) {
+      let html = "";
+      const fields = [
+        "name", "age", "blood", "emergencyContact", "allergies", 
+        "diabetes", "diabetesType", "asthma", "highBP", "lowBP", 
+        "strokeHistory", "epilepsy", "epilepsyType", "DNR", 
+        "organDonor", "smoke", "smokeFrequency", "medicine", "notes"
+      ];
+
+      fields.forEach(key => {
+        const value = data[key];
+        if (value && value !== "No" && value.toString().trim() !== "") {
+          html += `
+            <div class="info-item">
+              <div class="info-label">${t.labels[key] || key}</div>
+              <div class="info-value">${value}</div>
+            </div>
+          `;
+        }
+      });
+
+      displayDiv.innerHTML = html || `<p style="grid-column: 1/-1; text-align: center;">No critical info shared.</p>`;
+    }
+
+    function updateLanguage(lang) {
+      const t = translations[lang] || translations.en;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      
+      document.getElementById("medicalInfoTitle").textContent = t.title;
+      document.getElementById("emergencyBanner").textContent = t.emergency;
+      if (document.getElementById("navHomeText")) document.getElementById("navHomeText").textContent = t.navHome;
+      
+      if (!id) {
+        displayDiv.innerHTML = `<p style="grid-column: 1/-1; text-align: center;">${t.noID}</p>`;
+      } else if (!medicalData) {
+        const loadingEl = document.getElementById("loadingText");
+        if(loadingEl) loadingEl.textContent = t.loading;
+      } else {
+        renderMedicalData(medicalData, t);
+      }
+    }
+
+    const systemLang = (navigator.language || 'en').split('-')[0];
+    const defaultLang = ['en', 'fr', 'es', 'ar'].includes(systemLang) ? systemLang : 'en';
+    const savedLang = localStorage.getItem("language") || defaultLang;
+    updateLanguage(savedLang);
+
+    if (id) {
+      getDoc(doc(db, "medicalProfiles", id)).then(docSnap => {
+        if (!docSnap.exists()) {
+          const t = translations[savedLang] || translations.en;
+          displayDiv.innerHTML = `<p style="grid-column: 1/-1; text-align: center;">${t.notFound}</p>`;
+          return;
+        }
+        medicalData = docSnap.data();
+        updateLanguage(localStorage.getItem("language") || defaultLang);
+      }).catch(err => {
+        console.error(err);
+        displayDiv.innerHTML = `<p style="grid-column: 1/-1; text-align: center;">Error loading profile.</p>`;
+      });
+    }
+
+    // --- FAB MENU TOGGLE ---
+    const fabBtn = document.getElementById("fabBtn");
+    const fabMenu = document.getElementById("fabMenu");
+    const langBtns = document.querySelectorAll(".fab-menu .menu-btn[data-lang]");
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const themeIcon = document.getElementById("themeIcon");
+    const themeText = document.getElementById("themeText");
+    const navLogo = document.getElementById("navLogo");
+
+    if(fabBtn) {
+      fabBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        fabMenu.classList.toggle("active");
+      });
+    }
+
+    document.addEventListener("click", (e) => {
+      if (fabMenu && fabMenu.classList.contains("active") && !fabMenu.contains(e.target) && !fabBtn.contains(e.target)) {
+        fabMenu.classList.remove("active");
+      }
+    });
+
+    langBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const lang = btn.getAttribute("data-lang");
+        localStorage.setItem("language", lang);
+        document.body.style.transition = "opacity 0.3s";
+        document.body.style.opacity = "0";
+        setTimeout(() => {
+          updateLanguage(lang);
+          document.body.style.opacity = "1";
+        }, 300);
+        fabMenu.classList.remove("active");
+      });
+    });
+
+    // --- THEME LOGIC ---
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.body.classList.add("dark-theme");
+        document.body.classList.remove("light-theme");
+        if(navLogo) navLogo.src = "../imgs/logo-light.png";
+        if(themeIcon) themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+        if(themeText) themeText.textContent = "Light Mode";
+      } else {
+        document.body.classList.add("light-theme");
+        document.body.classList.remove("dark-theme");
+        if(navLogo) navLogo.src = "../imgs/logo-dark.png"; 
+        if(themeIcon) themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+        if(themeText) themeText.textContent = "Dark Mode";
+      }
+    }
+
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let isDarkMode = localStorage.getItem("theme") === "dark" || (!localStorage.getItem("theme") && prefersDark);
+    applyTheme(isDarkMode);
+
+    if(themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", () => {
+        isDarkMode = !isDarkMode;
+        localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+        applyTheme(isDarkMode);
+      });
+    }
+
+  </script>
+</body>
+</html>

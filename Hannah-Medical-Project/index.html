@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <br>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical QR - Home</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- <============= NAVBAR =============> -->
+  <nav class="glass-navbar">
+    <img src="imgs/logo-dark.png" alt="Medical QR Logo" class="nav-logo" id="navLogo">
+    <div class="nav-links">
+      <a href="index.html" id="navHomeText">Home</a>
+      <a href="pages/form.html" id="navProfileText">Create Profile</a>
+    </div>
+  </nav>
+
+  <!-- <============= HOME SCREEN =============> -->
+  <div class="home-container">
+    
+    <div class="app-icon">
+      <img src="imgs/logo-dark.png" id="homeLogo" alt="App Icon">
+    </div>
+
+    <h1 id="homeTitle">Medical QR</h1>
+    <p class="subtitle" id="homeSubtitle">Your emergency medical profile</p>
+
+    <p id="lastNameText" class="last-name" style="display: none;"></p>
+
+    <div class="home-actions">
+      <button class="btn-primary" id="startBtn">
+        Create New QR
+      </button>
+      
+      <button class="btn-secondary" id="continueBtn" style="display: none;">
+        Continue Last Profile
+      </button>
+    </div>
+
+    <p class="trust-text" id="homeTrustText" style="margin-top: 32px; font-size: 13px; color: var(--text-secondary);">
+      Your data is private and securely stored
+    </p>
+
+    <p id="homeCreditsText" style="margin-top: 16px; font-size: 12px; color: var(--text-secondary); font-weight: 500;">
+      Designed & Developed by Hannah
+    </p>
+
+  </div>
+
+  <script src="js/home.js"></script>
+
+</body>
+</html>
