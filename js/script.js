@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       localStorage.setItem("lastMedicalID", lastID);
       localStorage.setItem("lastMedicalName", dataToSave.name || "User"); 
     
-      const url = `https://hannahhaitham.github.io/medical-qr/pages/medical.html?id=${lastID}`;
+      const url = `https://hannahhaitham.github.io/medicalQR/pages/medical.html?id=${lastID}`;
         
       qrcodeDiv.innerHTML = "";
       new QRCode(qrcodeDiv, {
