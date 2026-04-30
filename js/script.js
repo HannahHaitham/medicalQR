@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         deleteBtn.classList.remove("hidden");
         confirmBtn.classList.add("hidden");
 
-        const url = `https://hannahhaitham.github.io/medical-qr/pages/medical.html?id=${lastID}`;
+        const url = `https://hannahhaitham.github.io/medicalQR/pages/medical.html?id=${lastID}`;
         qrcodeDiv.innerHTML = "";
         new QRCode(qrcodeDiv, {
           text: url, width: 200, height: 200,
